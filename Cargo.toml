@@ -1,0 +1,8 @@
+[package]
+name = "AdventOfRust2016"
+version = "0.1.0"
+authors = ["David Sullins <david.sullins@gmail.com>"]
+description = "Advent of Code 2016 solutions in Rust"
+license = "MIT"
+
+[dependencies]
