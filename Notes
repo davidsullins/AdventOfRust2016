@@ -1,0 +1,4 @@
+Problem 1 part 1.
+
+Originally I wrote a pure functional implementation with a fold() in calc_manhattan_length. But state needed to be kept in 2 places, the current position and the current direction. I decided that was harder to read than just mutating the direction as we go, so I changed it to the for loop you see in the code.
+
