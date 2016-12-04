@@ -1,4 +1,10 @@
 Problem 1 part 1.
 
-Originally I wrote a pure functional implementation with a fold() in calc_manhattan_length. But state needed to be kept in 2 places, the current position and the current direction. I decided that was harder to read than just mutating the direction as we go, so I changed it to the for loop you see in the code.
+Originally I wrote a pure functional implementation with a fold() in calc_manhattan_length. But state needed to be kept in 2 places, the current position and the current direction. I decided that was harder to read than just mutating the direction as we go, so I changed it.
+
+Problem 3 part 2.
+
+I really wanted to create something functional and elegant for part 2 like I did for part 1. While it's pretty compact and it makes perfect sense to me, I wonder if it would be clearer if I had written it out with for loops and kept a counter variable. It would be more code and look messier to me, but might be easier to follow for someone not inside my functional head.
+
+Also, that code I stuck in main for part 2 really deserves its own function and a unit test.
 
