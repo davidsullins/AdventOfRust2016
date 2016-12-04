@@ -6,20 +6,20 @@ use std::io::prelude::*;
 
 
 fn main() {
-	let mut pos1 = (1,1);
+    let mut pos1 = (1,1);
     let mut code1 = String::new();
-	let mut pos2 = (0,2);
+    let mut pos2 = (0,2);
     let mut code2 = String::new();
 
     let stdin = io::stdin();
 
     for line in stdin.lock().lines().map(|l| l.expect("Failed to read line")) {
         // part 1
-		pos1 = parse_move(pos1, &line);
+        pos1 = parse_move(pos1, &line);
         code1.push_str(&digit_from_pos(pos1).to_string());
 
         // part 2
-		pos2 = parse_move2(pos2, &line);
+        pos2 = parse_move2(pos2, &line);
         code2.push(char_from_pos2(pos2));
     }
 
