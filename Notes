@@ -6,5 +6,12 @@ Problem 3 part 2.
 
 I really wanted to create something functional and elegant for part 2 like I did for part 1. While it's pretty compact and it makes perfect sense to me, I wonder if it would be clearer if I had written it out with for loops and kept a counter variable. It would be more code and look messier to me, but might be easier to follow for someone not inside my functional head.
 
+After looking over others' solutions, it hit me that I gave a more complicated solution to part 2 because I reused my is_triangle_possible implementation from part 1. I should have rewritten it to create a simpler solution overall.
+
 Also, that code I stuck in main for part 2 really deserves its own function and a unit test.
+
+Problem 4.
+
+I solved the first part without using regexes, but after looking at the second part it was clear that using a regex would give a clearer and simpler solution. It would be cleaner overall to rewrite part 1 and make the whole thing use a regex.
+
 

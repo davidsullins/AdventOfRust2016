@@ -6,3 +6,4 @@ description = "Advent of Code 2016 solutions in Rust"
 license = "MIT"
 
 [dependencies]
+regex = "0.1"
