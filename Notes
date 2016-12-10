@@ -14,4 +14,7 @@ Problem 4.
 
 I solved the first part without using regexes, but after looking at the second part it was clear that using a regex would give a clearer and simpler solution. It would be cleaner overall to rewrite part 1 and make the whole thing use a regex.
 
+Problem 5.
+
+To avoid reallocating a string for every index that's tested, I create a string in get_password, truncate it on each iteration and append the new number at the end. Truncation should not change the string's capacity.
 

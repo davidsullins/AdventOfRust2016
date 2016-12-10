@@ -7,3 +7,5 @@ license = "MIT"
 
 [dependencies]
 regex = "0.1"
+md5 = "0.2"
+
