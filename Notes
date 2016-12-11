@@ -18,3 +18,7 @@ Problem 5.
 
 To avoid reallocating a string for every index that's tested, I create a string in get_password, truncate it on each iteration and append the new number at the end. Truncation should not change the string's capacity.
 
+Problem 7.
+
+Solution was very straightforward. The windows() iterator on slices comes in handly for many Advent of Code problems. I first considered parsing the string carefully to find things inside brackets, then realized that if the brackets are balanced we can simply split the string everywhere we find [ or ] and the resulting list will alternate between outside brackets and inside brackets. This solution would fail if the problem input contained tricks like including a [ inside a hypernet sequence.
+
