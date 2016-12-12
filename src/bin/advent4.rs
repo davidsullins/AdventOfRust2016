@@ -47,9 +47,13 @@ fn is_real_room(room: &str) -> bool {
 
     let mut char_counts: Vec<(char, usize)> = freq_map.iter().map(|(k, v)| (*k, *v)).collect();
     char_counts.sort_by(|a, b| {
-        if b.1 == a.1 { a.0.cmp(&b.0) } else { b.1.cmp(&a.1) }
+        if b.1 == a.1 {
+            a.0.cmp(&b.0)
+        } else {
+            b.1.cmp(&a.1)
+        }
     });
-    
+
     let mut correct_checksum = char_counts.iter().map(|&(k, _)| k).take(5).collect::<String>();
     correct_checksum.push(']');
 
@@ -60,7 +64,7 @@ fn parse_sector_id(room: &str) -> i32 {
     room.rsplit("-").nth(0).unwrap().split("[").nth(0).unwrap().parse().unwrap()
 }
 
-//////////
+// ///////
 // Part 2
 
 fn decrypt_room(room: &str) -> String {
@@ -86,34 +90,34 @@ fn decrypt_char(c: char, shift: u8) -> char {
     }
 }
 
-/////////
+// //////
 // Tests
 
 // part 1
 #[test]
 fn test_is_real_room() {
-	assert!(is_real_room("aaaaa-bbb-z-y-x-123[abxyz]"));
-	assert!(is_real_room("a-b-c-d-e-f-g-h-987[abcde]"));
-	assert!(is_real_room("not-a-real-room-404[oarel]"));
-	assert!(!is_real_room("totally-real-room-200[decoy]"));
+    assert!(is_real_room("aaaaa-bbb-z-y-x-123[abxyz]"));
+    assert!(is_real_room("a-b-c-d-e-f-g-h-987[abcde]"));
+    assert!(is_real_room("not-a-real-room-404[oarel]"));
+    assert!(!is_real_room("totally-real-room-200[decoy]"));
 }
 
 #[test]
 fn test_parse_sector_id() {
     assert_eq!(123, parse_sector_id("aaaaa-bbb-z-y-x-123[abxyz]"));
-	assert_eq!(987, parse_sector_id("a-b-c-d-e-f-g-h-987[abcde]"));
-	assert_eq!(404, parse_sector_id("not-a-real-room-404[oarel]"));
-	assert_eq!(200, parse_sector_id("totally-real-room-200[decoy]"));
+    assert_eq!(987, parse_sector_id("a-b-c-d-e-f-g-h-987[abcde]"));
+    assert_eq!(404, parse_sector_id("not-a-real-room-404[oarel]"));
+    assert_eq!(200, parse_sector_id("totally-real-room-200[decoy]"));
 }
 
 // part 2
 #[test]
 fn test_decrypt_room() {
-    assert_eq!("very encrypted name", decrypt_room("qzmt-zixmtkozy-ivhz-343[dummy]"));
+    assert_eq!("very encrypted name",
+               decrypt_room("qzmt-zixmtkozy-ivhz-343[dummy]"));
 }
 
 #[test]
 fn test_decrypt_char() {
     assert_eq!('v', decrypt_char('q', 5));
 }
-

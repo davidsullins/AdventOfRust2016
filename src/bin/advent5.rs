@@ -7,7 +7,7 @@ use std::io;
 use std::fmt::Write;
 
 fn main() {
-    let mut input = String::new(); 
+    let mut input = String::new();
     io::stdin().read_line(&mut input).ok().expect("Failed to read line");
 
     let door_id = input.trim();
@@ -16,7 +16,7 @@ fn main() {
 
 }
 
-//////////
+// ///////
 // Part 1
 
 fn get_password(door_id: &str) -> String {
@@ -55,7 +55,7 @@ fn char_from_nibble(nibble: u8) -> char {
     }
 }
 
-///////////
+// ////////
 // Part 2
 
 fn get_password2(door_id: &str) -> String {
@@ -64,13 +64,11 @@ fn get_password2(door_id: &str) -> String {
     let mut password = vec!['*'; 8];
     let mut total_chars = 0;
 
-    let pw_iter = 
-        (0u64..)
-            .filter_map(|x| {
-                guess.truncate(len);
-                write!(guess, "{}", x).unwrap();
-                get_password_character2(&guess)
-            });
+    let pw_iter = (0u64..).filter_map(|x| {
+        guess.truncate(len);
+        write!(guess, "{}", x).unwrap();
+        get_password_character2(&guess)
+    });
 
     for (c, pos) in pw_iter {
         if '*' == password[pos] {
@@ -97,7 +95,7 @@ fn get_password_character2(guess: &str) -> Option<(char, usize)> {
 }
 
 
-/////////
+// //////
 // Tests
 
 #[test]
@@ -137,4 +135,3 @@ fn test_get_password_character2() {
     assert_eq!(None, get_password_character2("abc5278568"));
     assert_eq!(Some(('e', 4)), get_password_character2("abc5357525"));
 }
-

@@ -17,7 +17,7 @@ const WEST: Vec2 = [-1, 0];
 
 
 fn main() {
-    let mut input = String::new(); 
+    let mut input = String::new();
     io::stdin().read_line(&mut input).ok().expect("Failed to read line");
 
     println!("part 1 distance: {}", calc_manhattan_length(&input));
@@ -47,9 +47,9 @@ fn parse_turn(dir: &mut Vec2, turn: &str) -> i32 {
     *dir = match dir_str.chars().nth(0) {
         Some('R') => turn_right(*dir),
         Some('L') => turn_left(*dir),
-        _ => panic!("unexpected character in input")    // could panic
+        _ => panic!("unexpected character in input"),    // could panic
     };
-    
+
     dist_str.parse::<i32>().unwrap()            // could panic
 }
 
@@ -64,14 +64,14 @@ fn turn_left(dir: Vec2) -> Vec2 {
 }
 
 
-///////////
+// ////////
 // Part 2
 fn find_first_revisited_distance(turns: &str) -> i32 {
     let mut dir = NORTH;
     let mut position = [0, 0];
     let mut visited = HashSet::new();
     visited.insert(position);
-    
+
     'outer: for turn in turns.trim().split(", ") {
         let distance = parse_turn(&mut dir, turn);
         for _ in 0..distance {
@@ -88,7 +88,7 @@ fn find_first_revisited_distance(turns: &str) -> i32 {
 }
 
 
-/////////
+// //////
 // Tests
 #[test]
 fn test_turn_right() {
@@ -127,4 +127,3 @@ fn test_calc_manhattan_length() {
 fn test_find_first_revisited_distance() {
     assert_eq!(4, find_first_revisited_distance("R8, R4, R4, R8"));
 }
-

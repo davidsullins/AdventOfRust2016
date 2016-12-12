@@ -1,7 +1,8 @@
 // advent8.rs
 // parsing instructions for small LCD
 
-#[macro_use] extern crate lazy_static;
+#[macro_use]
+extern crate lazy_static;
 extern crate regex;
 
 use std::io;
@@ -25,8 +26,8 @@ fn main() {
     let stdin = io::stdin();
 
     for line in stdin.lock().lines().map(|l| l.expect("Failed to read line")) {
-		apply_cmd(&line, &mut grid);
-	}
+        apply_cmd(&line, &mut grid);
+    }
 
     println!("Part 1 light count: {}", count_lights(&grid));
     println!("Part 2 screen display:");
@@ -101,15 +102,14 @@ fn print_grid(grid: &LightGrid) {
 }
 
 // //////
-// TESTS
+// Tests
 
 #[test]
 fn test_apply_cmd() {
     let mut grid = [[false; SCREEN_WIDTH]; SCREEN_HEIGHT];
-    const SOLUTION: LightGrid = [
-        [false, true, false, false, true, false, true],
-        [true, false, true, false, false, false, false],
-        [false, true, false, false, false, false, false]];
+    const SOLUTION: LightGrid = [[false, true, false, false, true, false, true],
+                                 [true, false, true, false, false, false, false],
+                                 [false, true, false, false, false, false, false]];
 
     apply_cmd("rect 3x2", &mut grid);
     apply_cmd("rotate column x=1 by 1", &mut grid);
@@ -119,4 +119,3 @@ fn test_apply_cmd() {
     assert_eq!(SOLUTION, grid);
     assert_eq!(6, count_lights(&grid));
 }
-

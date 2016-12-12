@@ -6,9 +6,9 @@ use std::io::prelude::*;
 
 
 fn main() {
-    let mut pos1 = (1,1);
+    let mut pos1 = (1, 1);
     let mut code1 = String::new();
-    let mut pos2 = (0,2);
+    let mut pos2 = (0, 2);
     let mut code2 = String::new();
 
     let stdin = io::stdin();
@@ -31,6 +31,7 @@ fn digit_from_pos(pos: (i32, i32)) -> i32 {
     1 + pos.0 + 3 * pos.1
 }
 
+#[cfg_attr(rustfmt, rustfmt_skip)]
 fn parse_move(pos: (i32, i32), s: &str) -> (i32, i32) {
     let (mut x, mut y) = pos;
 
@@ -47,10 +48,11 @@ fn parse_move(pos: (i32, i32), s: &str) -> (i32, i32) {
     (x, y)
 }
 
-///////////
+// ////////
 // Part 2
 
 // Same as part 1, except the conditions are less obvious
+#[cfg_attr(rustfmt, rustfmt_skip)]
 fn parse_move2(pos: (i32, i32), s: &str) -> (i32, i32) {
     let (mut x, mut y) = pos;
 
@@ -67,18 +69,17 @@ fn parse_move2(pos: (i32, i32), s: &str) -> (i32, i32) {
     (x, y)
 }
 
-const KEYPAD2_TABLE: [[char; 5]; 5] = 
-    [['*', '*', '1', '*', '*'],
-     ['*', '2', '3', '4', '*'],
-     ['5', '6', '7', '8', '9'],
-     ['*', 'A', 'B', 'C', '*'],
-     ['*', '*', 'D', '*', '*']];
+const KEYPAD2_TABLE: [[char; 5]; 5] = [['*', '*', '1', '*', '*'],
+                                       ['*', '2', '3', '4', '*'],
+                                       ['5', '6', '7', '8', '9'],
+                                       ['*', 'A', 'B', 'C', '*'],
+                                       ['*', '*', 'D', '*', '*']];
 
 fn char_from_pos2(pos: (i32, i32)) -> char {
     KEYPAD2_TABLE[pos.1 as usize][pos.0 as usize]
 }
 
-/////////
+// //////
 // Tests
 #[test]
 fn test_digit_from_pos() {
@@ -114,4 +115,3 @@ fn test_parse_move2() {
 fn test_char_from_pos2() {
     assert_eq!('5', char_from_pos2((0, 2)));
 }
-
