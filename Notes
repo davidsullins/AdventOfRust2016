@@ -22,3 +22,10 @@ Problem 7.
 
 Solution was very straightforward. The windows() iterator on slices comes in handly for many Advent of Code problems. I first considered parsing the string carefully to find things inside brackets, then realized that if the brackets are balanced we can simply split the string everywhere we find [ or ] and the resulting list will alternate between outside brackets and inside brackets. This solution would fail if the problem input contained tricks like including a [ inside a hypernet sequence.
 
+Problem 8.
+
+Because the light grid is so small (50 x 6 = 300 bytes) I went with a 2D array of bools for the data storage. If the display had been huge I would have been tempted to pull in the bit_vec crate. Bit twiddling is rarely worth the trouble when storing relatively small amounts of data.
+
+To rotate a column or row I just make a copy. There are more efficient ways to rotate an array than that (look up "juggling algorithm" for example) but again, for the small amount of data here it doesn't seem worth it.
+
+
