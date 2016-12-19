@@ -20,12 +20,16 @@ To avoid reallocating a string for every index that's tested, I create a string 
 
 Problem 7.
 
-Solution was very straightforward. The windows() iterator on slices comes in handly for many Advent of Code problems. I first considered parsing the string carefully to find things inside brackets, then realized that if the brackets are balanced we can simply split the string everywhere we find [ or ] and the resulting list will alternate between outside brackets and inside brackets. This solution would fail if the problem input contained tricks like including a [ inside a hypernet sequence.
+Solution was very straightforward. The windows() iterator on slices comes in handy for many Advent of Code problems. I first considered parsing the string carefully to find things inside brackets, then realized that if the brackets are balanced we can simply split the string everywhere we find [ or ] and the resulting list will alternate between outside brackets and inside brackets. This solution would fail if the problem input contained tricks like including a [ inside a hypernet sequence.
 
 Problem 8.
 
 Because the light grid is so small (50 x 6 = 300 bytes) I went with a 2D array of bools for the data storage. If the display had been huge I would have been tempted to pull in the bit_vec crate. Bit twiddling is rarely worth the trouble when storing relatively small amounts of data.
 
 To rotate a column or row I just make a copy. There are more efficient ways to rotate an array than that (look up "juggling algorithm" for example) but again, for the small amount of data here it doesn't seem worth it.
+
+Problem 9.
+
+For part 2, originally I tried making the recursive function take an Iterator argument, with the idea that I could call take(...) to make it iterate over a subset of the string slice iterator. This failed to compile because it woud recursively expand the type argument, so that it was Take<Chars> the first time, and Take<Take<Chars>> the second time, etc. I think I could have made it work using a boxed iterator but I really would have been disappointed if I had to resort to dynamic dispatch, so I changed it to the current method using string slices. I think the solution is quite readable anyway, so I am not disappointed in where it ended up.
 
 
