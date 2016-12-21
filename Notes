@@ -32,4 +32,9 @@ Problem 9.
 
 For part 2, originally I tried making the recursive function take an Iterator argument, with the idea that I could call take(...) to make it iterate over a subset of the string slice iterator. This failed to compile because it woud recursively expand the type argument, so that it was Take<Chars> the first time, and Take<Take<Chars>> the second time, etc. I think I could have made it work using a boxed iterator but I really would have been disappointed if I had to resort to dynamic dispatch, so I changed it to the current method using string slices. I think the solution is quite readable anyway, so I am not disappointed in where it ended up.
 
+Problem 12.
+
+It wasn't clear to me from the instructions that the jnz instruction has an immediate form as well as a register form. I only found out when I ran my problem input. Unknown whether the immediate forms of cpy and jnz could take negative numbers as input, but I handle them anyway. The only negative numbers that appeared in my problem input were jump offsets.
+
+My initial implementation turns out to be quite slow, taking about 20 seconds to complete both parts on my PC. It parses each instruction every time using a regex. That clearly could be optimized. I will return to this later.
 
