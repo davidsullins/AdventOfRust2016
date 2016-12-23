@@ -38,3 +38,7 @@ It wasn't clear to me from the instructions that the jnz instruction has an imme
 
 My initial implementation turns out to be quite slow, taking about 20 seconds to complete both parts on my PC. It parses each instruction every time using a regex. That clearly could be optimized. I will return to this later.
 
+Problem 13.
+
+Simple breadth-first search to solve this problem. BFS means the first time we find the goal, it's already the shortest possible path so no need to keep exploring.
+
