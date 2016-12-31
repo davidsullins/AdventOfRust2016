@@ -13,7 +13,7 @@ use futures::Future;
 
 fn main() {
     let mut input = String::new();
-    io::stdin().read_line(&mut input).ok().expect("Failed to read line");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
 
     let salt = input.trim();
     println!("part 1 64th index: {}", get_nth_idx(salt, 64, false));
@@ -102,7 +102,7 @@ fn get_nth_idx(salt: &str, n: usize, stretch_keys: bool) -> u64 {
                     break;
                 }
                 // check for quints that match
-                for &q_idx in quints[nibble as usize].iter() {
+                for &q_idx in &quints[nibble as usize] {
                     if t_idx < q_idx && t_idx + 1000 >= q_idx {
                         // found a key!
                         key_count += 1;

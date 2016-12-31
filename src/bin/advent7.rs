@@ -14,11 +14,11 @@ fn main() {
         .collect();
 
     let total_supports_tls = addrs.iter()
-        .filter(|addr| supports_tls(&addr))
+        .filter(|addr| supports_tls(addr))
         .count();
 
     let total_supports_ssl = addrs.iter()
-        .filter(|addr| supports_ssl(&addr))
+        .filter(|addr| supports_ssl(addr))
         .count();
 
     println!("Part 1 total TLS addresses: {}", total_supports_tls);
@@ -50,13 +50,13 @@ fn supports_ssl(addr: &str) -> bool {
 
     // Find all ABAs in supernets and store them as a set of BABs
     let mut babs = HashSet::new();
-    for &(_, supernet) in supernets.iter() {
+    for &(_, supernet) in &supernets {
         get_bab_from_aba(supernet, &mut babs);
     }
 
     // Search all hypernets for any BAB
-    for &(_, hypernet) in hypernets.iter() {
-        for bab in babs.iter() {
+    for &(_, hypernet) in &hypernets {
+        for bab in &babs {
             if hypernet.contains(bab) {
                 return true;
             }

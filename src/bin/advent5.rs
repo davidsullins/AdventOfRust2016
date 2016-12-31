@@ -8,7 +8,7 @@ use std::fmt::Write;
 
 fn main() {
     let mut input = String::new();
-    io::stdin().read_line(&mut input).ok().expect("Failed to read line");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
 
     let door_id = input.trim();
     println!("part 1 password: {}", get_password(door_id));
@@ -49,9 +49,9 @@ fn char_from_nibble(nibble: u8) -> char {
     assert!(nibble <= 0xf);
 
     if nibble <= 9 {
-        (('0' as u8) + nibble) as char
+        ((b'0') + nibble) as char
     } else {
-        (('a' as u8) + nibble - 10) as char
+        ((b'a') + nibble - 10) as char
     }
 }
 

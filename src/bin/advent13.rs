@@ -8,8 +8,8 @@ type Location = (i32, i32);
 
 fn main() {
     let mut input = String::new();
-    io::stdin().read_line(&mut input).ok().expect("Failed to read line");
-    let favorite = input.trim().parse().ok().expect("Input wasn't a number");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+    let favorite = input.trim().parse().expect("Input wasn't a number");
 
     if let Some(steps) = find_steps_to_goal((1, 1), (31, 39), favorite) {
         println!("Part 1: min steps to 31, 39: {}", steps);
@@ -41,7 +41,7 @@ fn find_steps_to_goal(start: Location, goal: Location, favorite: i32) -> Option<
 
     while let Some((location, steps)) = locations.pop_front() {
         // find all neighbors
-        for &(i, j) in [(-1, 0), (1, 0), (0, -1), (0, 1)].iter() {
+        for &(i, j) in &[(-1, 0), (1, 0), (0, -1), (0, 1)] {
             let neighbor = (location.0 + i, location.1 + j);
             if neighbor == goal {
                 return Some(steps + 1);
@@ -87,7 +87,7 @@ fn count_reachable_locations(start: Location, max_steps: usize, favorite: i32) -
         }
 
         // find all neighbors
-        for &(i, j) in [(-1, 0), (1, 0), (0, -1), (0, 1)].iter() {
+        for &(i, j) in &[(-1, 0), (1, 0), (0, -1), (0, 1)] {
             let neighbor = (location.0 + i, location.1 + j);
             if neighbor.0 >= 0 && neighbor.1 >= 0 && !is_wall(neighbor, favorite) &&
                !visited.contains(&neighbor) {

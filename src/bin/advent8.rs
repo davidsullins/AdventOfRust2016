@@ -45,9 +45,9 @@ fn apply_cmd(cmd: &str, grid: &mut LightGrid) {
         let cols: usize = caps.at(1).unwrap().parse().unwrap();
         let rows: usize = caps.at(2).unwrap().parse().unwrap();
 
-        for i in 0..rows {
-            for j in 0..cols {
-                grid[i][j] = true;
+        for row in grid.iter_mut().take(rows) {
+            for cell in row.iter_mut().take(cols) {
+                *cell = true;
             }
         }
     } else if let Some(caps) = RE_ROW.captures(cmd) {
@@ -92,10 +92,10 @@ fn count_lights(grid: &LightGrid) -> u32 {
 // Part 2
 fn print_grid(grid: &LightGrid) {
     let mut row_string = String::new();
-    for i in 0..SCREEN_HEIGHT {
+    for row in grid.iter() {
         row_string.clear();
-        for j in 0..SCREEN_WIDTH {
-            row_string.push(if grid[i][j] { '#' } else { '.' });
+        for &cell in row.iter() {
+            row_string.push(if cell { '#' } else { '.' });
         }
         println!("{}", row_string);
     }

@@ -14,7 +14,7 @@ fn main() {
     }
 
     // part 1
-    let possible_triangles1 = triples.iter().filter(|t| is_triangle_possible(&t)).count();
+    let possible_triangles1 = triples.iter().filter(|t| is_triangle_possible(t)).count();
     println!("Part 1 possible triangles: {}", possible_triangles1);
 
     // part 2

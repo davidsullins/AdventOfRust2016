@@ -18,7 +18,7 @@ const WEST: Vec2 = [-1, 0];
 
 fn main() {
     let mut input = String::new();
-    io::stdin().read_line(&mut input).ok().expect("Failed to read line");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
 
     println!("part 1 distance: {}", calc_manhattan_length(&input));
     println!("part 2 distance: {}", find_first_revisited_distance(&input));

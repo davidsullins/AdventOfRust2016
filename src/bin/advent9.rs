@@ -5,7 +5,7 @@ use std::io;
 
 fn main() {
     let mut input = String::new();
-    io::stdin().read_line(&mut input).ok().expect("Failed to read line");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
 
     let compressed = input.trim();
     let length = calc_decompressed_length(compressed);
@@ -37,7 +37,7 @@ fn calc_decompressed_length(s: &str) -> usize {
 // consumes an integer and the next character after it (should be either 'x' or ')')
 fn parse_usize(iter: &mut std::str::Chars) -> usize {
     let mut num = 0;
-    while let Some(c) = iter.next() {
+    for c in iter {
         if c >= '0' && c <= '9' {
             let digit = c as usize - '0' as usize;
             num = num * 10 + digit;
@@ -72,8 +72,7 @@ fn calc_decompressed_length2(s: &str) -> usize {
 // consumes an integer and the next character after it (should be either 'x' or ')')
 fn parse_usize2(s: &str, chars_consumed: &mut usize) -> usize {
     let mut num = 0;
-    let mut iter = s.chars();
-    while let Some(c) = iter.next() {
+    for c in s.chars() {
         *chars_consumed += 1;
         if c >= '0' && c <= '9' {
             let digit = c as usize - '0' as usize;

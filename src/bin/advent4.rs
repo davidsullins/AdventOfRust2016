@@ -61,7 +61,7 @@ fn is_real_room(room: &str) -> bool {
 }
 
 fn parse_sector_id(room: &str) -> i32 {
-    room.rsplit("-").nth(0).unwrap().split("[").nth(0).unwrap().parse().unwrap()
+    room.rsplit('-').nth(0).unwrap().split('[').nth(0).unwrap().parse().unwrap()
 }
 
 // ///////
@@ -84,7 +84,7 @@ fn decrypt_char(c: char, shift: u8) -> char {
     if c == '-' {
         ' '
     } else {
-        let offset = 'a' as u8;
+        let offset = b'a';
         let new = (c as u8 - offset + shift) % 26;
         (new + offset) as char
     }
