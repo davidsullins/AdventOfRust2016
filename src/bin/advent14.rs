@@ -2,10 +2,14 @@
 // keys for one-time pad
 
 extern crate md5;
+extern crate futures;
+extern crate futures_cpupool;
 
 use std::io;
 use std::fmt::Write;
 use std::collections::VecDeque;
+use futures_cpupool::{CpuPool, CpuFuture};
+use futures::Future;
 
 fn main() {
     let mut input = String::new();
@@ -40,10 +44,12 @@ fn has_quint(nibble: u8, md5sum: [u8; 16]) -> bool {
     })
 }
 
+
 // Optimized so we only check each index for a triple once, and check each index for a quintuple
 // once for each possible nibble.
 // Work ahead 1000 indices and queue up triples and quintuples as we scan.
 // Remove old triple indices as we go. Assuming quints will be rare so don't bother removing them.
+// For part 2 the md5 calculation dominates, so we multithread that part.
 fn get_nth_idx(salt: &str, n: usize, stretch_keys: bool) -> u64 {
     let mut guess = salt.to_string();
     let salt_len = salt.len();
@@ -52,20 +58,38 @@ fn get_nth_idx(salt: &str, n: usize, stretch_keys: bool) -> u64 {
     let mut quints = [vec![], vec![], vec![], vec![], vec![], vec![], vec![], vec![], vec![],
                       vec![], vec![], vec![], vec![], vec![], vec![], vec![]];
 
+    // part 2 only
+    let pool = CpuPool::new_num_cpus();
+    const MD5_HEADSTART: u64 = 64;      // prime the pump with this many futures
+    const MD5_BATCH_SIZE: u64 = 256;    // add this many futures at a time
+    let mut md5_futures = VecDeque::new();
+    if stretch_keys {
+        // spawn the first batch of futures
+        spawn_md5_futures(&mut md5_futures, &pool, salt, 0..MD5_HEADSTART);
+    }
+
     for i in 0u64.. {
-        guess.truncate(salt_len);
-        write!(guess, "{}", i).unwrap();
+        // part 2 only
+        if stretch_keys && i % MD5_BATCH_SIZE as u64 == 0 {
+            // spawn more futures
+            let start = i + MD5_HEADSTART;
+            spawn_md5_futures(&mut md5_futures, &pool, salt, start..start + MD5_BATCH_SIZE);
+        }
+
         let md5sum = if stretch_keys {
             // part 2
-            calc_stretched_key(&guess)
+            md5_futures.pop_front().unwrap().wait().unwrap()
         } else {
             // part 1
-            md5::compute(guess.as_bytes())
+            guess.truncate(salt_len);
+            write!(guess, "{}", i).unwrap();
+            *md5::compute(guess.as_bytes())
         };
-        if let Some(nibble) = find_triple(*md5sum) {
+
+        if let Some(nibble) = find_triple(md5sum) {
             triples.push_back((i, nibble));
             for nibble in 0..0x10 {
-                if has_quint(nibble, *md5sum) {
+                if has_quint(nibble, md5sum) {
                     quints[nibble as usize].push(i);
                 }
             }
@@ -100,11 +124,12 @@ fn get_nth_idx(salt: &str, n: usize, stretch_keys: bool) -> u64 {
 
 // Profiling the original implementation with callgrind showed most of the time spent in formatted
 // write, so replaced with a table lookup
-fn calc_stretched_key(s: &str) -> md5::Digest {
+// Return Result with dummy Error type, because a Result can convert into a Future
+fn calc_stretched_key(guess: String) -> Result<[u8; 16], u32> {
     const ASCII_FROM_NIBBLE: [u8; 16] = [0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38,
                                          0x39, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66];
     let mut md5_str = [0u8; 32];
-    let mut md5sum = md5::compute(s.as_bytes());
+    let mut md5sum = md5::compute(guess.as_bytes());
 
     for _ in 0..2016 {
         for (byte, chunk) in md5sum.iter().zip(md5_str.chunks_mut(2)) {
@@ -114,8 +139,24 @@ fn calc_stretched_key(s: &str) -> md5::Digest {
         md5sum = md5::compute(&md5_str);
     }
 
-    md5sum
+    Ok(*md5sum)
 }
+
+fn spawn_md5_futures(md5_futures: &mut VecDeque<CpuFuture<[u8; 16], u32>>,
+                     pool: &CpuPool,
+                     salt: &str,
+                     r: std::ops::Range<u64>) {
+    let mut guess = salt.to_string();
+    let salt_len = guess.len();
+
+    md5_futures.extend(r.map(|md5_idx| {
+        guess.truncate(salt_len);
+        write!(guess, "{}", md5_idx).unwrap();
+        let guess_clone = guess.clone();
+        pool.spawn_fn(move || calc_stretched_key(guess_clone))
+    }));
+}
+
 
 // //////
 // Tests
@@ -146,8 +187,8 @@ fn test_get_nth_idx() {
 // part 2
 #[test]
 fn test_calc_stretched_key() {
-    let key = calc_stretched_key("abc0");
-    assert_eq!([0xa1, 7, 0xff], key[0..3]);
+    let key = calc_stretched_key("abc0".to_string());
+    assert_eq!([0xa1, 7, 0xff], key.unwrap()[0..3]);
 }
 
 #[test]
