@@ -21,7 +21,7 @@ fn main() {
 // Part 1
 
 // returns the nibble of the first triple found
-fn find_triple(md5sum: md5::Digest) -> Option<u8> {
+fn find_triple(md5sum: [u8; 16]) -> Option<u8> {
     md5sum.windows(2)
         .find(|w| {
             let nibble = w[0] & 0xf;
@@ -31,7 +31,7 @@ fn find_triple(md5sum: md5::Digest) -> Option<u8> {
 }
 
 // true if the md5 digest has 5 of the specified nibbles in a row
-fn has_quint(nibble: u8, md5sum: md5::Digest) -> bool {
+fn has_quint(nibble: u8, md5sum: [u8; 16]) -> bool {
     let both = (nibble << 4) | nibble;
 
     md5sum.windows(3).any(|w| {
@@ -62,10 +62,10 @@ fn get_nth_idx(salt: &str, n: usize, stretch_keys: bool) -> u64 {
             // part 1
             md5::compute(guess.as_bytes())
         };
-        if let Some(nibble) = find_triple(md5sum) {
+        if let Some(nibble) = find_triple(*md5sum) {
             triples.push_back((i, nibble));
             for nibble in 0..0x10 {
-                if has_quint(nibble, md5sum) {
+                if has_quint(nibble, *md5sum) {
                     quints[nibble as usize].push(i);
                 }
             }
@@ -122,18 +122,18 @@ fn calc_stretched_key(s: &str) -> md5::Digest {
 
 #[test]
 fn test_find_triple() {
-    assert_eq!(None, find_triple(md5::compute("abc17".as_bytes())));
-    assert_eq!(Some(8), find_triple(md5::compute("abc18".as_bytes())));
-    assert_eq!(Some(0xe), find_triple(md5::compute("abc39".as_bytes())));
-    assert_eq!(Some(9), find_triple(md5::compute("abc92".as_bytes())));
-    assert_eq!(Some(0xc), find_triple(md5::compute("abc22728".as_bytes())));
+    assert_eq!(None, find_triple(*md5::compute("abc17".as_bytes())));
+    assert_eq!(Some(8), find_triple(*md5::compute("abc18".as_bytes())));
+    assert_eq!(Some(0xe), find_triple(*md5::compute("abc39".as_bytes())));
+    assert_eq!(Some(9), find_triple(*md5::compute("abc92".as_bytes())));
+    assert_eq!(Some(0xc), find_triple(*md5::compute("abc22728".as_bytes())));
 }
 
 #[test]
 fn test_has_quint() {
-    assert_eq!(false, has_quint(8, md5::compute("abc18".as_bytes())));
-    assert_eq!(true, has_quint(9, md5::compute("abc200".as_bytes())));
-    assert_eq!(true, has_quint(0xe, md5::compute("abc816".as_bytes())));
+    assert_eq!(false, has_quint(8, *md5::compute("abc18".as_bytes())));
+    assert_eq!(true, has_quint(9, *md5::compute("abc200".as_bytes())));
+    assert_eq!(true, has_quint(0xe, *md5::compute("abc816".as_bytes())));
 }
 
 #[test]
@@ -147,7 +147,6 @@ fn test_get_nth_idx() {
 #[test]
 fn test_calc_stretched_key() {
     let key = calc_stretched_key("abc0");
-    println!("key: {:?}", key);
     assert_eq!([0xa1, 7, 0xff], key[0..3]);
 }
 
