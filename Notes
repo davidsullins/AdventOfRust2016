@@ -50,3 +50,9 @@ For the second part, again there was a straightforward implementation (formatted
 
 After that, profiling of part 2 showed most of the remaining time for part 2 spent in the md5 library. I farmed the md5-related work out to worker threads using futures-cpupool for another big speedup.
 
+Problem 16.
+
+There are tricks to calculate whether a given step is a right or left turn in a standard dragon curve without reading the previous elements, but since this is a modified form I'm not sure that I could use those tricks. So I just keep the whole list in memory and generate new values on the end from the existing ones.
+
+To calculate the checksum, I just calculate each element of the final checksum directly rather than iteratively reducing the original data in half until the length is odd. I observe that data_len = checksum_len * 2^N where checksum_len is odd. So I just count the zeros at the end of data_len, which gives me N. From there I can reduce data in chunks of 2^N bits at a time. Being able to use the chunks iterator that Vec<bool> provides is the primary reason I used Vec<bool> instead of the bit_vec crate. You'll see the type alias BV used because I wanted to be able to switch easily between bit_vec and Vec<bool> if I changed my mind later.
+
