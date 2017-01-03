@@ -149,7 +149,7 @@ fn find_longest_path_to_goal(passcode: &str) -> Option<usize> {
 // Tests
 
 #[test]
-fn test_is_wall() {
+fn test_is_open() {
     let mut state = MazeState::from_passcode("hijkl");
     assert!(!state.is_open(Dir::Up));
     assert!(state.is_open(Dir::Down));
