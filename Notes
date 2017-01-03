@@ -59,3 +59,8 @@ To calculate the checksum, I just calculate each element of the final checksum d
 Problem 17.
 
 Straightforward breadth-first search, similar to problem 13. One thing that may be interesting in this solution is theiter() method I implemented for the enum Dir. This lets you iterate over all four variants of Dir.
+
+Problem 18.
+
+The problem as written makes trap detection more complicated than it really is. If you think about it carefully, the center tile makes no difference. In fact, the new tile is a trap only if the left tile is different from the right tile. One way to make this even faster would be to encode each row as a bit vector, make 2 copies of the previous row, shift one 1 bit left, the other 1 bit right, and xor them together to get the new row. However, it ran plenty fast with my initial Vec<bool> implementation so I left it alone.
+
