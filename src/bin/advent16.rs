@@ -85,6 +85,7 @@ fn count_trailing_zeros(x: usize) -> u32 {
     ((x ^ (x - 1)) >> 1).count_ones()
 }
 
+#[allow(unknown_lints)]
 #[allow(ptr_arg)]
 fn string_from_bv(bv: &BV) -> String {
     bv.iter().map(|&x| if x { '1' } else { '0' }).collect()
