@@ -73,8 +73,8 @@ fn decrypt_room(room: &str) -> String {
     let cap = re.captures(room).unwrap();   // could panic if the RE doesn't match
 
     // unwraps are safe here because the RE matched
-    let text = cap.at(1).unwrap();
-    let num: u32 = cap.at(2).unwrap().parse().unwrap();
+    let text = &cap[1];
+    let num: u32 = cap[2].parse().unwrap();
     let shift = (num % 26) as u8;
 
     text.chars().map(|c| decrypt_char(c, shift)).collect()

@@ -44,8 +44,8 @@ impl Disc {
                 Regex::new(r"^Disc #\d+ has (\d+) positions; at time=0, it is at position (\d+)").unwrap();
         }
         if let Some(caps) = RE_DESC.captures(desc) {
-            let count: usize = caps.at(1).unwrap().parse().unwrap();
-            let position: usize = caps.at(2).unwrap().parse().unwrap();
+            let count: usize = caps[1].parse().unwrap();
+            let position: usize = caps[2].parse().unwrap();
             Disc {
                 position: position,
                 count: count,

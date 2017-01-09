@@ -42,8 +42,8 @@ fn apply_cmd(cmd: &str, grid: &mut LightGrid) {
     }
 
     if let Some(caps) = RE_RECT.captures(cmd) {
-        let cols: usize = caps.at(1).unwrap().parse().unwrap();
-        let rows: usize = caps.at(2).unwrap().parse().unwrap();
+        let cols: usize = caps[1].parse().unwrap();
+        let rows: usize = caps[2].parse().unwrap();
 
         for row in grid.iter_mut().take(rows) {
             for cell in row.iter_mut().take(cols) {
@@ -51,8 +51,8 @@ fn apply_cmd(cmd: &str, grid: &mut LightGrid) {
             }
         }
     } else if let Some(caps) = RE_ROW.captures(cmd) {
-        let row: usize = caps.at(1).unwrap().parse().unwrap();
-        let rot: usize = caps.at(2).unwrap().parse().unwrap();
+        let row: usize = caps[1].parse().unwrap();
+        let rot: usize = caps[2].parse().unwrap();
 
         let old_row = grid[row];
 
@@ -60,8 +60,8 @@ fn apply_cmd(cmd: &str, grid: &mut LightGrid) {
             grid[row][(i + rot) % SCREEN_WIDTH] = pixel;
         }
     } else if let Some(caps) = RE_COL.captures(cmd) {
-        let col: usize = caps.at(1).unwrap().parse().unwrap();
-        let rot: usize = caps.at(2).unwrap().parse().unwrap();
+        let col: usize = caps[1].parse().unwrap();
+        let rot: usize = caps[2].parse().unwrap();
 
         let mut old_col = [false; SCREEN_HEIGHT];
         for i in 0..SCREEN_HEIGHT {

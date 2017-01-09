@@ -63,18 +63,18 @@ impl Factory {
             static ref RE_BOT_HIGH: Regex = Regex::new(r"^bot (\d+).+high to bot (\d+)").unwrap();
         }
         if let Some(caps) = RE_VAL.captures(instr) {
-            let val: usize = caps.at(1).unwrap().parse().unwrap();
-            let bot_id: usize = caps.at(2).unwrap().parse().unwrap();
+            let val: usize = caps[1].parse().unwrap();
+            let bot_id: usize = caps[2].parse().unwrap();
             self.give_chip_to_bot(bot_id, Chip::Val(val));
         } else {
             if let Some(caps) = RE_BOT_LOW.captures(instr) {
-                let src_bot: usize = caps.at(1).unwrap().parse().unwrap();
-                let dest_bot: usize = caps.at(2).unwrap().parse().unwrap();
+                let src_bot: usize = caps[1].parse().unwrap();
+                let dest_bot: usize = caps[2].parse().unwrap();
                 self.give_chip_to_bot(dest_bot, Chip::BotLow(src_bot));
             }
             if let Some(caps) = RE_BOT_HIGH.captures(instr) {
-                let src_bot: usize = caps.at(1).unwrap().parse().unwrap();
-                let dest_bot: usize = caps.at(2).unwrap().parse().unwrap();
+                let src_bot: usize = caps[1].parse().unwrap();
+                let dest_bot: usize = caps[2].parse().unwrap();
                 self.give_chip_to_bot(dest_bot, Chip::BotHigh(src_bot));
             }
         }
@@ -153,13 +153,13 @@ impl Factory {
             static ref RE_OUT_HIGH: Regex = Regex::new(r"^bot (\d+).+high to output (\d+)").unwrap();
         }
         if let Some(caps) = RE_OUT_LOW.captures(instr) {
-            let bot: usize = caps.at(1).unwrap().parse().unwrap();
-            let output: usize = caps.at(2).unwrap().parse().unwrap();
+            let bot: usize = caps[1].parse().unwrap();
+            let output: usize = caps[2].parse().unwrap();
             self.assign_chip_to_output(output, Chip::BotLow(bot));
         }
         if let Some(caps) = RE_OUT_HIGH.captures(instr) {
-            let bot: usize = caps.at(1).unwrap().parse().unwrap();
-            let output: usize = caps.at(2).unwrap().parse().unwrap();
+            let bot: usize = caps[1].parse().unwrap();
+            let output: usize = caps[2].parse().unwrap();
             self.assign_chip_to_output(output, Chip::BotHigh(bot));
         }
     }

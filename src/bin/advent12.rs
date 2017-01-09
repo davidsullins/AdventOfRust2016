@@ -48,34 +48,34 @@ impl ProgramState {
         }
 
         if let Some(caps) = RE_CPY_REG.captures(instr) {
-            let src_reg_idx = idx_from_reg(caps.at(1).unwrap());
-            let dest_reg_idx = idx_from_reg(caps.at(2).unwrap());
+            let src_reg_idx = idx_from_reg(&caps[1]);
+            let dest_reg_idx = idx_from_reg(&caps[2]);
             self.registers[dest_reg_idx] = self.registers[src_reg_idx];
             self.program_counter += 1;
         } else if let Some(caps) = RE_CPY_IMM.captures(instr) {
-            let immediate: i32 = caps.at(1).unwrap().parse().unwrap();
-            let reg_idx = idx_from_reg(caps.at(2).unwrap());
+            let immediate: i32 = caps[1].parse().unwrap();
+            let reg_idx = idx_from_reg(&caps[2]);
             self.registers[reg_idx] = immediate;
             self.program_counter += 1;
         } else if let Some(caps) = RE_INC.captures(instr) {
-            let reg_idx = idx_from_reg(caps.at(1).unwrap());
+            let reg_idx = idx_from_reg(&caps[1]);
             self.registers[reg_idx] += 1;
             self.program_counter += 1;
         } else if let Some(caps) = RE_DEC.captures(instr) {
-            let reg_idx = idx_from_reg(caps.at(1).unwrap());
+            let reg_idx = idx_from_reg(&caps[1]);
             self.registers[reg_idx] -= 1;
             self.program_counter += 1;
         } else if let Some(caps) = RE_JNZ_REG.captures(instr) {
-            let reg_idx = idx_from_reg(caps.at(1).unwrap());
-            let offset: isize = caps.at(2).unwrap().parse().unwrap();
+            let reg_idx = idx_from_reg(&caps[1]);
+            let offset: isize = caps[2].parse().unwrap();
             if self.registers[reg_idx] != 0 {
                 self.program_counter = (self.program_counter as isize + offset) as usize;
             } else {
                 self.program_counter += 1;
             };
         } else if let Some(caps) = RE_JNZ_IMM.captures(instr) {
-            let immediate: i32 = caps.at(1).unwrap().parse().unwrap();
-            let offset: isize = caps.at(2).unwrap().parse().unwrap();
+            let immediate: i32 = caps[1].parse().unwrap();
+            let offset: isize = caps[2].parse().unwrap();
             if immediate != 0 {
                 self.program_counter = (self.program_counter as isize + offset) as usize;
             } else {
