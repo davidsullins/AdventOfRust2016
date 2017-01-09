@@ -24,6 +24,7 @@ fn find_last_elf(elf_count: usize) -> u32 {
         if elf_count == 1 {
             return elves[0];
         }
+        #[allow(needless_range_loop)]
         for thief in 0..elf_count {
             let victim = (thief + 1) % elf_count;
             if elves[thief] > 0 {
@@ -38,21 +39,18 @@ fn find_last_elf(elf_count: usize) -> u32 {
 
 fn find_last_elf2(elf_count: usize) -> u32 {
     let mut elves: Vec<_> = (1..elf_count as u32 + 1).collect();
-    let mut thief = 0;
+    let mut victim = elf_count / 2;
+    let mut victim_incr = if elf_count % 2 == 0 { 1 } else { 2 };
     loop {
-        let removed_below_thief = elves.iter().take(thief).filter(|&&x| x == 0).count();
+        let removed_below_victim = elves.iter().take(victim).filter(|&&x| x == 0).count();
         elves.retain(|&x| x > 0);
         let remaining = elves.len();
         if remaining == 1 {
             return elves[0];
         }
-        thief = (thief - removed_below_thief) % remaining;
-        let mut victim = (thief + remaining / 2) % remaining;
-        let mut victim_incr = if remaining % 2 == 0 { 1 } else { 2 };
+        victim = (victim - removed_below_victim) % remaining;
         for _ in 0..remaining / 2 {
-            assert!(0 != elves[thief]);
             elves[victim] = 0;
-            thief = (thief + 1) % remaining;
             victim = (victim + victim_incr) % remaining;
             victim_incr = 3 - victim_incr;
         }
