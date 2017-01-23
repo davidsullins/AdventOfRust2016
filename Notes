@@ -69,3 +69,10 @@ The problem as written makes trap detection more complicated than it really is. 
 Problem 19.
 
 My initial implementation for part 2, which I've left in the source, removed the victims from the elf Vec every time. Remove from a Vec causes all elements to the right of the removal to be copied, so it's really slow with the huge elf Vec we had in this problem. Replacing the Vec with a VecDeque can make some removals slightly faster but it's still terrible performance. I studied the pattern when choosing the next victim and found that it alternates between incrementing by 1 and incrementing by 2. So then I changed it to pass over half the elf Vec at a time. Worked much better.
+
+Problem 23.
+
+This solution was not difficult to build on top of Day 12's solution. The only thing that felt a little ugly to me was I had to clone the instruction in a couple places so I could match on the instruction and then modify it within the match. It seems to me there should be a way to express this in safe Rust code without a copy or temporary variable but I couldn't think of a way.
+
+The second part took about 25 s to run on my PC. It's worth coming back to this later to optimize further.
+
