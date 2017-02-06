@@ -7,7 +7,7 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_line(&mut input).expect("Failed to read line");
 
-    let mut trap_room = TrapRoom::from_str(&input);
+    let mut trap_room = TrapRoom::create_from_str(&input);
     trap_room.grow(40);
     println!("part 1 safe tile count = {}", trap_room.count_safe_tiles());
     trap_room.grow(400000);
@@ -23,7 +23,7 @@ struct TrapRoom {
 }
 
 impl TrapRoom {
-    fn from_str(s: &str) -> TrapRoom {
+    fn create_from_str(s: &str) -> TrapRoom {
         let mut row = vec![false];
         row.extend(s.chars()
             .filter_map(|c| match c {
@@ -69,11 +69,11 @@ impl TrapRoom {
 
 #[test]
 fn test_count_safe_tiles() {
-    let mut room1 = TrapRoom::from_str("..^^.");
+    let mut room1 = TrapRoom::create_from_str("..^^.");
     room1.grow(3);
     assert_eq!(6, room1.count_safe_tiles());
 
-    let mut room2 = TrapRoom::from_str(".^^.^.^^^^");
+    let mut room2 = TrapRoom::create_from_str(".^^.^.^^^^");
     room2.grow(10);
     assert_eq!(38, room2.count_safe_tiles());
 }

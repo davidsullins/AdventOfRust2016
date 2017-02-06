@@ -11,7 +11,7 @@ fn main() {
     io::stdin().read_line(&mut input).expect("Failed to read line");
     let favorite = input.trim().parse().expect("Input wasn't a number");
 
-    if let Some(steps) = find_steps_to_goal((1, 1), (31, 39), favorite) {
+    if let Some(steps) = find_steps((1, 1), (31, 39), |loc| is_wall(loc, favorite)) {
         println!("Part 1: min steps to 31, 39: {}", steps);
     } else {
         println!("Part 1: 31, 39 not reachable!");
@@ -29,7 +29,9 @@ fn is_wall((x, y): Location, favorite: i32) -> bool {
 }
 
 // Calculate minimum number of steps in path from start to goal, if such a path exists
-fn find_steps_to_goal(start: Location, goal: Location, favorite: i32) -> Option<usize> {
+fn find_steps<F>(start: Location, goal: Location, is_wall: F) -> Option<usize>
+    where F: Fn(Location) -> bool
+{
     if start == goal {
         return Some(0);
     }
@@ -46,7 +48,7 @@ fn find_steps_to_goal(start: Location, goal: Location, favorite: i32) -> Option<
             if neighbor == goal {
                 return Some(steps + 1);
             }
-            if neighbor.0 >= 0 && neighbor.1 >= 0 && !is_wall(neighbor, favorite) &&
+            if neighbor.0 >= 0 && neighbor.1 >= 0 && !is_wall(neighbor) &&
                !visited.contains(&neighbor) {
                 locations.push_back((neighbor, steps + 1));
                 visited.insert(neighbor);
@@ -66,9 +68,9 @@ fn _print_office(width: i32, length: i32, favorite: i32) {
             } else {
                 b"."
             };
-            std::io::stdout().write(c).unwrap();
+            std::io::stdout().write_all(c).unwrap();
         }
-        std::io::stdout().write(b"\n").unwrap();
+        std::io::stdout().write_all(b"\n").unwrap();
     }
 }
 
@@ -118,8 +120,9 @@ fn test_is_wall() {
 }
 
 #[test]
-fn test_find_steps_to_goal() {
-    assert_eq!(Some(0), find_steps_to_goal((13, 37), (13, 37), 10));
-    assert_eq!(Some(11), find_steps_to_goal((1, 1), (7, 4), 10));
-    assert_eq!(None, find_steps_to_goal((1, 1), (31, 39), 10));
+fn test_find_steps() {
+    assert_eq!(Some(0),
+               find_steps((13, 37), (13, 37), |loc| is_wall(loc, 10)));
+    assert_eq!(Some(11), find_steps((1, 1), (7, 4), |loc| is_wall(loc, 10)));
+    assert_eq!(None, find_steps((1, 1), (31, 39), |loc| is_wall(loc, 10)));
 }

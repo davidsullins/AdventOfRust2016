@@ -9,7 +9,7 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_line(&mut input).expect("Failed to read line");
 
-    let mut rd = RandomData::from_str(&input);
+    let mut rd = RandomData::create_from_str(&input);
     // part 1
     rd.grow(272);
     let checksum1 = string_from_bv(&rd.calc_checksum());
@@ -31,7 +31,7 @@ struct RandomData {
 }
 
 impl RandomData {
-    fn from_str(s: &str) -> RandomData {
+    fn create_from_str(s: &str) -> RandomData {
         RandomData {
             pos: 0,
             bv: s.chars()
@@ -100,8 +100,8 @@ mod tests {
     use super::string_from_bv;
 
     #[test]
-    fn test_rd_from_str() {
-        let bv = RandomData::from_str("100").bv;
+    fn test_rd_create_from_str() {
+        let bv = RandomData::create_from_str("100").bv;
         assert_eq!(3, bv.len());
         assert_eq!(true, bv[0]);
         assert_eq!(false, bv[1]);
@@ -120,7 +120,7 @@ mod tests {
 
     fn does_rd_grow_match(input: &str, expect: &str) {
         let len = expect.len();
-        let mut rd_in = RandomData::from_str(input);
+        let mut rd_in = RandomData::create_from_str(input);
         rd_in.grow(len);
         assert_eq!(&string_from_bv(&rd_in.bv), expect);
     }
@@ -139,7 +139,7 @@ mod tests {
     }
 
     fn does_rd_checksum_match(input: &str, len: usize, expect: &str) {
-        let mut rd_in = RandomData::from_str(input);
+        let mut rd_in = RandomData::create_from_str(input);
         rd_in.grow(len);
         assert_eq!(&string_from_bv(&rd_in.calc_checksum()), expect);
     }
