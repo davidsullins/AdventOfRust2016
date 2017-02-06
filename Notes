@@ -70,9 +70,20 @@ Problem 19.
 
 My initial implementation for part 2, which I've left in the source, removed the victims from the elf Vec every time. Remove from a Vec causes all elements to the right of the removal to be copied, so it's really slow with the huge elf Vec we had in this problem. Replacing the Vec with a VecDeque can make some removals slightly faster but it's still terrible performance. I studied the pattern when choosing the next victim and found that it alternates between incrementing by 1 and incrementing by 2. So then I changed it to pass over half the elf Vec at a time. Worked much better.
 
+Problem 22.
+
+It turns out, the problem set I got (and most like the one that everyone got) has exactly 1 empty node and all others are either nodes that can never move or nodes that can only move to the empty node. Just like the sample data set. We can use the list of viable pairs from part 1's solution to find which is which. After that it's not so hard to find the solution.
+
+I use the same algorithm given in the example, first sliding the empty node to the position just to the left of the goal data, then just a repeated number of shimmies to get it moved left to node (0, 0). I have to make a number of assumptions to get this to work, which I check for in code. If any of these assumptions are broken, my solution will not work, but it would also take longer and be more complicated so I'm sticking with my lame solution.
+
+The find_steps function is recycled from day 13. I might come back to this and refactor it into a common lib. Originally I wanted these all to be standalone examples but I think it's worthwhile to show how a lib would work.
+
 Problem 23.
 
 This solution was not difficult to build on top of Day 12's solution. The only thing that felt a little ugly to me was I had to clone the instruction in a couple places so I could match on the instruction and then modify it within the match. It seems to me there should be a way to express this in safe Rust code without a copy or temporary variable but I couldn't think of a way.
 
 The second part took about 25 s to run on my PC. It's worth coming back to this later to optimize further.
 
+Problem 24.
+
+Plan to reuse problem 13 solution to find shortest path between every pair of nodes. Once I have distances between every node it's essentially the traveling salesman problem, except I need to brute force the absolute answer. There is definitely opportunity for parallism here.
