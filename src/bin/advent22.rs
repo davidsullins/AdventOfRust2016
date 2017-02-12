@@ -4,15 +4,14 @@
 #[macro_use]
 extern crate lazy_static;
 extern crate regex;
+extern crate common;
 
 use std::io;
 use std::io::BufRead;
-use regex::Regex;
 use std::collections::HashSet;
-use std::collections::VecDeque;
 use std::cmp::max;
-
-type Location = (i32, i32);
+use regex::Regex;
+use common::{Location, find_steps};
 
 fn main() {
     let stdin = io::stdin();
@@ -133,36 +132,6 @@ fn calc_fewest_steps_to_goal(nodes: &[Node]) -> Option<usize> {
     let steps = (5 * width - 9) as usize;
 
     dist.map(|x| x + steps)
-}
-
-fn find_steps<F>(start: Location, goal: Location, is_wall: F) -> Option<usize>
-    where F: Fn(Location) -> bool
-{
-    if start == goal {
-        return Some(0);
-    }
-
-    let mut locations = VecDeque::new();
-    let mut visited = HashSet::new();
-    locations.push_back((start, 0));
-    visited.insert(start);
-
-    while let Some((location, steps)) = locations.pop_front() {
-        // find all neighbors
-        for &(i, j) in &[(-1, 0), (1, 0), (0, -1), (0, 1)] {
-            let neighbor = (location.0 + i, location.1 + j);
-            if neighbor == goal {
-                return Some(steps + 1);
-            }
-            if neighbor.0 >= 0 && neighbor.1 >= 0 && !is_wall(neighbor) &&
-               !visited.contains(&neighbor) {
-                locations.push_back((neighbor, steps + 1));
-                visited.insert(neighbor);
-            }
-        }
-    }
-
-    None
 }
 
 // //////
