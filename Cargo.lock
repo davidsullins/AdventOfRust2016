@@ -6,6 +6,7 @@ dependencies = [
  "futures-cpupool 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "md5 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "permutohedron 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -86,6 +87,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "permutohedron"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "regex"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -160,6 +166,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum md5 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)" = "6fce5a83f1379e0a2353a8ac5d15270d417ad36c6ac78ea4d4beae7482e6812d"
 "checksum memchr 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "1dbccc0e46f1ea47b9f17e6d67c5a96bd27030519c519c9c91327e31275a47b4"
 "checksum num_cpus 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "55aabf4e2d6271a2e4e4c0f2ea1f5b07cc589cc1a9e9213013b54a76678ca4f3"
+"checksum permutohedron 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "15205169997d28cfdc18e44d18bd34b70a0322a213e57bb968c22858ea70304f"
 "checksum regex 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "4278c17d0f6d62dfef0ab00028feb45bd7d2102843f80763474eeb1be8a10c01"
 "checksum regex-syntax 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "2f9191b1f57603095f105d317e375d19b1c9c5c3185ea9633a99a6dcbed04457"
 "checksum thread-id 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "4437c97558c70d129e40629a5b385b3fb1ffac301e63941335e4d354081ec14a"
